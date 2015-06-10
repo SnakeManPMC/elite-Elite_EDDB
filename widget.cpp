@@ -1,3 +1,6 @@
+/*
+See bottom of this file for EDDB json format examples
+*/
 #include "widget.h"
 #include "ui_widget.h"
 #include <QtWidgets>
@@ -23,7 +26,7 @@ Widget::~Widget()
 
 void Widget::OpenCommoditiesFile()
 {
-	QString elite_path = "D://Warez//Elite.Dangerous//EDDB_JSON//";
+	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
 	QStringList nameFilter("commodities.json");
 
 	QFile file(elite_path + nameFilter[0]);
@@ -49,7 +52,7 @@ void Widget::OpenCommoditiesFile()
 
 void Widget::OpenSystemsFile()
 {
-	QString elite_path = "D://Warez//Elite.Dangerous//EDDB_JSON//";
+	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
 	QStringList nameFilter("systems.json");
 
 	QFile file(elite_path + nameFilter[0]);
@@ -76,7 +79,7 @@ void Widget::OpenSystemsFile()
 
 void Widget::OpenStationsFile()
 {
-	QString elite_path = "D://Warez//Elite.Dangerous//EDDB_JSON//";
+	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
 	QStringList nameFilter("temporary_example_stations.json");
 
 	QFile file(elite_path + nameFilter[0]);
@@ -171,3 +174,192 @@ void Widget::parseStationsJSON(QByteArray line)
 		}
 	}
 }
+
+/*
+format of EDDB API json, Commodities:
+[
+{
+	"id":1,
+	"name":"Explosives",
+	"category_id":1,
+	"average_price":255,
+	"category":
+	{
+		"id":1,
+		"name":"Chemicals"
+	}
+},
+{
+	"id":2,
+	"name":"Hydrogen Fuel",
+	"category_id":1,
+	"average_price":102,
+	"category":
+	{
+		"id":1,
+		"name":"Chemicals"
+	}
+},
+{
+	"id":3,
+	"name":"Mineral Oil",
+	"category_id":1,
+	"average_price":177,
+	"category":
+	{
+		"id":1,
+		"name":"Chemicals"
+	}
+},
+
+Systems:
+[
+{
+	"id":1,
+	"name":"1 G. Caeli",
+	"x":80.90625,
+	"y":-83.53125,
+	"z":-30.8125,
+	"faction":"-",
+	"population":null,
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"security":null,
+	"primary_economy":null
+},
+{
+	"id":2,
+	"name":"1 Geminorum",
+	"x":19.78125,
+	"y":3.5625,
+	"z":-153.8125,
+	"faction":null,
+	"population":null,
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"security":null,
+	"primary_economy":null
+},
+{
+	"id":3,
+	"name":"1 Hydrae",
+	"x":60.90625,
+	"y":28.53125,
+	"z":-54.90625,
+	"faction":null,
+	"population":null,
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"security":null,
+	"primary_economy":null
+},
+
+Stations_lite:
+[
+{
+	"id":1,
+	"name":"Bain Colony",
+	"system_id":18370,
+	"max_landing_pad_size":null,
+	"distance_to_star":null,
+	"faction":"-",
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"type":null,
+	"has_blackmarket":null,
+	"has_commodities":1,
+	"has_refuel":null,
+	"has_repair":null,
+	"has_rearm":null,
+	"has_outfitting":null,
+	"has_shipyard":null,
+	"import_commodities":[],
+	"export_commodities":[],
+	"prohibited_commodities":[],
+	"economies":[]
+},
+{
+	"id":3,
+	"name":"Gehry Dock",
+	"system_id":7358,
+	"max_landing_pad_size":20,
+	"distance_to_star":null,
+	"faction":"-",
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"type":"Unknown Outpost",
+	"has_blackmarket":null,
+	"has_commodities":null,
+	"has_refuel":null,
+	"has_repair":null,
+	"has_rearm":null,
+	"has_outfitting":null,
+	"has_shipyard":null,
+	"import_commodities":[],
+	"export_commodities":[],
+	"prohibited_commodities":[],
+	"economies":[]
+},
+
+Stations.json:
+[
+{
+	"id":1,
+	"name":"Bain Colony",
+	"system_id":18370,
+	"max_landing_pad_size":null,
+	"distance_to_star":null,
+	"faction":"-",
+	"government":null,
+	"allegiance":null,
+	"state":null,
+	"type":null,
+	"has_blackmarket":null,
+	"has_commodities":1,
+	"has_refuel":null,
+	"has_repair":null,
+	"has_rearm":null,
+	"has_outfitting":null,
+	"has_shipyard":null,
+	"import_commodities":[],
+	"export_commodities":[],
+	"prohibited_commodities":[],
+	"economies":[],
+	"listings":
+	[
+	{
+		"id":1,
+		"station_id":1,
+		"commodity_id":5,
+		"supply":0,
+		"buy_price":0,
+		"sell_price":378,
+		"demand":1137,
+		"collected_at":1420167760
+	},
+	{
+		"id":2,
+		"station_id":1,
+		"commodity_id":6,
+		"supply":0,
+		"buy_price":0,
+		"sell_price":6882,
+		"demand":38,
+		"collected_at":1420167760
+	},
+	{
+		"id":3,
+		"station_id":1,
+		"commodity_id":7,
+		"supply":0,
+		"buy_price":0,
+		"sell_price":534,
+		"demand":318,
+		"collected_at":1420167760
+	},
+*/
