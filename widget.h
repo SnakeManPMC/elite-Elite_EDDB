@@ -15,6 +15,9 @@ public:
 	explicit Widget(QWidget *parent = 0);
 	~Widget();
 
+private slots:
+	void on_browseEDDBDir_clicked();
+
 private:
 	Ui::Widget *ui;
 	void OpenCommoditiesFile();
@@ -26,6 +29,7 @@ private:
 	QStringList Systems;
 	QStringList Stations;
 	QStringList Commodities;
+	QString eddbDir;
 };
 
 #endif // WIDGET_H

@@ -13,9 +13,7 @@ Widget::Widget(QWidget *parent) :
 {
 	ui->setupUi(this);
 
-	OpenCommoditiesFile();
-	OpenSystemsFile();
-	OpenStationsFile();
+	setWindowTitle("Elite EDDB by PMC");
 }
 
 Widget::~Widget()
@@ -24,12 +22,14 @@ Widget::~Widget()
 }
 
 
+/*
+
+Commodities
+
+*/
 void Widget::OpenCommoditiesFile()
 {
-	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
-	QStringList nameFilter("commodities.json");
-
-	QFile file(elite_path + nameFilter[0]);
+	QFile file(eddbDir + "\\commodities.json");
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -50,12 +50,14 @@ void Widget::OpenCommoditiesFile()
 }
 
 
+/*
+
+Systems
+
+*/
 void Widget::OpenSystemsFile()
 {
-	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
-	QStringList nameFilter("systems.json");
-
-	QFile file(elite_path + nameFilter[0]);
+	QFile file(eddbDir + "\\systems.json");
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -77,12 +79,14 @@ void Widget::OpenSystemsFile()
 }
 
 
+/*
+
+Stations
+
+*/
 void Widget::OpenStationsFile()
 {
-	QString elite_path = "D://Elite.Dangerous//EDDB_JSON//";
-	QStringList nameFilter("temporary_example_stations.json");
-
-	QFile file(elite_path + nameFilter[0]);
+	QFile file(eddbDir + "\\stations.json");
 
 	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
 	{
@@ -170,196 +174,27 @@ void Widget::parseStationsJSON(QByteArray line)
 			sellprice = cmdity.value(QString("sell_price")).toInt();
 			//qDebug() << cmdity.value(QString("commodity_id")).toString();
 			nameCommodity = Commodities.at(cmdity_id);
-			ui->textEdit->append("Commodity_id: " + QString::number(cmdity_id) + ", Commodity: " + nameCommodity + ", sell_price: " + QString::number(sellprice) + ", buy_price: " + QString::number(buyprice));
+			// oh crap dont try to list all commodities :)
+			//ui->textEdit->append("Commodity_id: " + QString::number(cmdity_id) + ", Commodity: " + nameCommodity + ", sell_price: " + QString::number(sellprice) + ", buy_price: " + QString::number(buyprice));
 		}
 	}
 }
 
-/*
-format of EDDB API json, Commodities:
-[
-{
-	"id":1,
-	"name":"Explosives",
-	"category_id":1,
-	"average_price":255,
-	"category":
-	{
-		"id":1,
-		"name":"Chemicals"
-	}
-},
-{
-	"id":2,
-	"name":"Hydrogen Fuel",
-	"category_id":1,
-	"average_price":102,
-	"category":
-	{
-		"id":1,
-		"name":"Chemicals"
-	}
-},
-{
-	"id":3,
-	"name":"Mineral Oil",
-	"category_id":1,
-	"average_price":177,
-	"category":
-	{
-		"id":1,
-		"name":"Chemicals"
-	}
-},
 
-Systems:
-[
+void Widget::on_browseEDDBDir_clicked()
 {
-	"id":1,
-	"name":"1 G. Caeli",
-	"x":80.90625,
-	"y":-83.53125,
-	"z":-30.8125,
-	"faction":"-",
-	"population":null,
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"security":null,
-	"primary_economy":null
-},
-{
-	"id":2,
-	"name":"1 Geminorum",
-	"x":19.78125,
-	"y":3.5625,
-	"z":-153.8125,
-	"faction":null,
-	"population":null,
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"security":null,
-	"primary_economy":null
-},
-{
-	"id":3,
-	"name":"1 Hydrae",
-	"x":60.90625,
-	"y":28.53125,
-	"z":-54.90625,
-	"faction":null,
-	"population":null,
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"security":null,
-	"primary_economy":null
-},
+	QString fileName = QFileDialog::getExistingDirectory(this, tr("Open Directory"),
+							     "",
+							     QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+	if (fileName.isEmpty())
+	return;
+	else
+	{
+		eddbDir = fileName;
+		ui->eddbDir->setText(eddbDir);
 
-Stations_lite:
-[
-{
-	"id":1,
-	"name":"Bain Colony",
-	"system_id":18370,
-	"max_landing_pad_size":null,
-	"distance_to_star":null,
-	"faction":"-",
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"type":null,
-	"has_blackmarket":null,
-	"has_commodities":1,
-	"has_refuel":null,
-	"has_repair":null,
-	"has_rearm":null,
-	"has_outfitting":null,
-	"has_shipyard":null,
-	"import_commodities":[],
-	"export_commodities":[],
-	"prohibited_commodities":[],
-	"economies":[]
-},
-{
-	"id":3,
-	"name":"Gehry Dock",
-	"system_id":7358,
-	"max_landing_pad_size":20,
-	"distance_to_star":null,
-	"faction":"-",
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"type":"Unknown Outpost",
-	"has_blackmarket":null,
-	"has_commodities":null,
-	"has_refuel":null,
-	"has_repair":null,
-	"has_rearm":null,
-	"has_outfitting":null,
-	"has_shipyard":null,
-	"import_commodities":[],
-	"export_commodities":[],
-	"prohibited_commodities":[],
-	"economies":[]
-},
-
-Stations.json:
-[
-{
-	"id":1,
-	"name":"Bain Colony",
-	"system_id":18370,
-	"max_landing_pad_size":null,
-	"distance_to_star":null,
-	"faction":"-",
-	"government":null,
-	"allegiance":null,
-	"state":null,
-	"type":null,
-	"has_blackmarket":null,
-	"has_commodities":1,
-	"has_refuel":null,
-	"has_repair":null,
-	"has_rearm":null,
-	"has_outfitting":null,
-	"has_shipyard":null,
-	"import_commodities":[],
-	"export_commodities":[],
-	"prohibited_commodities":[],
-	"economies":[],
-	"listings":
-	[
-	{
-		"id":1,
-		"station_id":1,
-		"commodity_id":5,
-		"supply":0,
-		"buy_price":0,
-		"sell_price":378,
-		"demand":1137,
-		"collected_at":1420167760
-	},
-	{
-		"id":2,
-		"station_id":1,
-		"commodity_id":6,
-		"supply":0,
-		"buy_price":0,
-		"sell_price":6882,
-		"demand":38,
-		"collected_at":1420167760
-	},
-	{
-		"id":3,
-		"station_id":1,
-		"commodity_id":7,
-		"supply":0,
-		"buy_price":0,
-		"sell_price":534,
-		"demand":318,
-		"collected_at":1420167760
-	},
-*/
+		OpenCommoditiesFile();
+		OpenSystemsFile();
+		OpenStationsFile();
+	}
+}
